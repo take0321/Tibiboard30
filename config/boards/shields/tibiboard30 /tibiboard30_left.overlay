@@ -1,0 +1,8 @@
+
+#include "tibiboard30.dtsi"
+
+&transform {
+    col-offset = <0>;
+};
+
+
