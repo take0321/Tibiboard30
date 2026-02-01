@@ -5,4 +5,3 @@ jobs:
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
 
 
-Copied from: zmk-config-faw36/.github/workflows/build.yml at master · Germain-Gadel/zmk-config-faw36 - <https://github.com/Germain-Gadel/zmk-config-faw36/blob/master/.github/workflows/build.yml>
