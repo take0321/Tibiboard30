@@ -1,6 +1,6 @@
 #include <physical_layouts.dtsi>
 #include <dt-bindings/zmk/matrix_transform.h>
-#include "./sync24_physical_layouts.dtsi"
+#include "./tibiboard30_physical_layouts.dtsi"
 
 / {
     chosen {
