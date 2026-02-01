@@ -10,10 +10,20 @@
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "col2row";
 
-        row-gpios = <&pro_micro 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
-                    <&pro_micro 16 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
-                    <&pro_micro 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
-    };
+          row-gpios = <
+        &gpio0 46 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)   /* D9 */
+        &gpio0 45 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)   /* D8 */
+        &gpio0 44 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)   /* D7 */
+    >;
+
+    col-gpios = <
+        &gpio0 28 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)   /* D2 */
+        &gpio0 29 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)  /* D3 */
+        &gpio0 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)  /* D4 */
+        &gpio0 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)   /* D5 */
+        &gpio0 43 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)   /* D6 */
+
+
 
     transform: matrix_transform {
         compatible = "zmk,matrix-transform";
@@ -29,7 +39,7 @@
 
     layout: layout {
         compatible = "zmk,physical-layout";
-        display-name = "ippo";
+        display-name = "tibiboard30";
         transform = <&transform>;
         kscan = <&kscan>;
 
