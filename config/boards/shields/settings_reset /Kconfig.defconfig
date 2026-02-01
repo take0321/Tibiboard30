@@ -1,0 +1,9 @@
+
+if SHIELD_SETTINGS_RESET
+
+config ZMK_SETTINGS_RESET_ON_START
+    default y
+
+endif
+
+
