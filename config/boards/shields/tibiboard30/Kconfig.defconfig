@@ -1,17 +1,14 @@
-if SHIELD_IPPO_LEFT
+if SHIELD_TIBIBOARD30_LEFT
 
 config ZMK_KEYBOARD_NAME
-    default "Ippo"
+    default "tibiboard30"
 
 config ZMK_SPLIT_ROLE_CENTRAL
     default y
 
-config ZMK_STUDIO
-    default y
-
 endif
 
-if SHIELD_IPPO_LEFT || SHIELD_IPPO_RIGHT
+if SHIELD_TIBIBOARD30_LEFT || SHIELD_TIBIBOARD30_RIGHT
 
 config ZMK_SPLIT
     default y
