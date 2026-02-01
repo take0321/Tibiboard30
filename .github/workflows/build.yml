@@ -1,20 +1,8 @@
-name: Build ZMK firmware
-
-on:
-  push:
-  pull_request:
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
 
-      - name: Build ZMK firmware
-        uses: zmkfirmware/zmk-build-action@v1
-        with:
-          board: seeeduino_xiao_ble
-          shield: tibiboard30_left tibiboard30_right
-           snippet: studio-rpc-usb-uart
+Copied from: zmk-config-faw36/.github/workflows/build.yml at master · Germain-Gadel/zmk-config-faw36 - <https://github.com/Germain-Gadel/zmk-config-faw36/blob/master/.github/workflows/build.yml>
