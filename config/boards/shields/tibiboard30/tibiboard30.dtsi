@@ -10,19 +10,22 @@
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "col2row";
 
-        row-gpios = <
-            &gpio0 46 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)   /* D9 */
-            &gpio0 45 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)   /* D8 */
-            &gpio0 44 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)   /* D7 */
-        >;
+        
+            row-gpios = <
+      &xiao_d 9 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)
+　    &xiao_d 8 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)
+      &xiao_d 7 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)
+      >;
 
-        col-gpios = <
-            &gpio0 28 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)   /* D2 */
-            &gpio0 29 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)   /* D3 */
-            &gpio0 4  (GPIO_ACTIVE_LOW | GPIO_PULL_UP)   /* D4 */
-            &gpio0 5  (GPIO_ACTIVE_LOW | GPIO_PULL_UP)   /* D5 */
-            &gpio0 43 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)   /* D6 */
-        >;
+            col-gpios = <
+      &xiao_d 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)
+      &xiao_d 3 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)
+      &xiao_d 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)
+      &xiao_d 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)
+      &xiao_d 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)
+      >;
+
+        
     };
 
     transform: matrix_transform {
