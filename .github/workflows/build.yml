@@ -1,5 +1,20 @@
-on: [push, pull_request, workflow_dispatch]
+name: Build ZMK firmware
+
+on:
+  push:
+  pull_request:
 
 jobs:
   build:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build ZMK firmware
+        uses: zmkfirmware/zmk-build-action@v1
+        with:
+          board: seeeduino_xiao_ble
+          shield: tibiboard30_left tibiboard30_right
+           snippet: studio-rpc-usb-uart
