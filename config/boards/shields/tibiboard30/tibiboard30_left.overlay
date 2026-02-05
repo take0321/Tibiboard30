@@ -1,26 +1,24 @@
 #include "tibiboard30.dtsi"
 
+/ {
+    vibrator: vibrator {
+        compatible = "gpio-leds";
+        vibe_pin: vibe_0 {
+            gpios = <&xiao_d 10 GPIO_ACTIVE_HIGH>;
+        };
+    };
+
+    aliases {
+        vibe0 = &vibe_pin;
+    };
+};
+
 &kscan {
     col-gpios
         = <&xiao_d  6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
         , <&xiao_d  5 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
         , <&xiao_d  4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        , <&xiao_d  3  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        , <&xiao_d  2  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&xiao_d  3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&xiao_d  2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
         ;
-};
-/ {
-    /* 振動モーターの定義 */
-    vibrator: vibrator {
-        compatible = "gpio-leds";
-        vibe_pin: vibe_0 {
-            gpios = <&xiao_d 10 GPIO_ACTIVE_HIGH>; /* D1ピンを使用 */
-            label = "Vibration Motor";
-        };
-    };
-
-    /* プログラムから参照するための別名 */
-    aliases {
-        vibe0 = &vibe_pin;
-    };
 };
