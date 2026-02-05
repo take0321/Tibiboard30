@@ -1,17 +1,6 @@
 #include "tibiboard30.dtsi"
 
-/ {
-    vibrator: vibrator {
-        compatible = "gpio-leds";
-        vibe_pin: vibe_0 {
-            gpios = <&xiao_d 10 GPIO_ACTIVE_HIGH>;
-        };
-    };
 
-    aliases {
-        vibe0 = &vibe_pin;
-    };
-};
 
 &transform {
     col-offset = <5>;
