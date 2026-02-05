@@ -23,7 +23,13 @@
     };
 
     combos {
-        compatible = "zmk,combos";
+    compatible = "zmk,combos";
+    combo_vibe_layer_off {
+        timeout-ms = <50>;
+        key-positions = <0 1 2 3 >; // 
+        bindings = <&kp F19>; // F19キーを送信
+        };
+
         
         
     
