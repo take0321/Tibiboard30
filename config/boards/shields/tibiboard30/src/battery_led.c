@@ -9,62 +9,67 @@ static const struct gpio_dt_spec led_red   = GPIO_DT_SPEC_GET(DT_ALIAS(led0), gp
 static const struct gpio_dt_spec led_green = GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios);
 static const struct gpio_dt_spec led_blue  = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios);
 
-/* 表示時間 (2秒) */
-#define LED_SHOW_TIME 2000
+/* 表示時間 (5秒) */
+#define LED_SHOW_TIME 5000
 
 static struct k_work_delayable led_off_work;
 static struct k_work_delayable boot_show_work;
 
-/* LED消灯 */
+/* * 修正ポイント:
+ * ZephyrのGPIO設定に従い、論理値を使用します。
+ * 0 = OFF (Inactive)
+ * 1 = ON  (Active)
+ */
 static void all_leds_off(void) {
-    if (device_is_ready(led_red.port)) gpio_pin_set_dt(&led_red, 1);
-    if (device_is_ready(led_green.port)) gpio_pin_set_dt(&led_green, 1);
-    if (device_is_ready(led_blue.port)) gpio_pin_set_dt(&led_blue, 1);
+    if (device_is_ready(led_red.port))   gpio_pin_set_dt(&led_red, 0);
+    if (device_is_ready(led_green.port)) gpio_pin_set_dt(&led_green, 0);
+    if (device_is_ready(led_blue.port))  gpio_pin_set_dt(&led_blue, 0);
 }
 
 static void led_off_handler(struct k_work *work) {
     all_leds_off();
 }
 
-/* バッテリー表示のメイン処理 */
 static void show_battery_level(void) {
     uint8_t level = zmk_battery_state_of_charge();
     
     k_work_cancel_delayable(&led_off_work);
     all_leds_off();
 
-    /* 色の決定 */
+    /* * 修正ポイント:
+     * ここも 1 で点灯させます
+     */
     if (level >= 80) {
-        gpio_pin_set_dt(&led_green, 0); /* 緑 */
+        gpio_pin_set_dt(&led_green, 1); /* 緑 ON */
     } else if (level >= 30) {
-        gpio_pin_set_dt(&led_blue, 0);  /* 青 */
+        gpio_pin_set_dt(&led_blue, 1);  /* 青 ON */
     } else {
-        gpio_pin_set_dt(&led_red, 0);   /* 赤 */
+        gpio_pin_set_dt(&led_red, 1);   /* 赤 ON */
     }
 
     /* 2秒後に消す */
     k_work_schedule(&led_off_work, K_MSEC(LED_SHOW_TIME));
 }
 
-/* 起動時の呼び出し用 */
 static void boot_show_handler(struct k_work *work) {
     show_battery_level();
 }
 
-/* 初期化処理 */
 static int battery_led_init(void) {
     if (!device_is_ready(led_red.port)) return -ENODEV;
     
+    /* 初期状態は INACTIVE (OFF) に設定 */
     gpio_pin_configure_dt(&led_red, GPIO_OUTPUT_INACTIVE);
     gpio_pin_configure_dt(&led_green, GPIO_OUTPUT_INACTIVE);
     gpio_pin_configure_dt(&led_blue, GPIO_OUTPUT_INACTIVE);
 
+    /* 念のため消灯 */
     all_leds_off();
     
     k_work_init_delayable(&led_off_work, led_off_handler);
     k_work_init_delayable(&boot_show_work, boot_show_handler);
 
-    /* 起動してから 1秒後 に表示する */
+    /* 起動1秒後に表示 */
     k_work_schedule(&boot_show_work, K_MSEC(1000));
 
     return 0;
