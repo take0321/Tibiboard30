@@ -14,7 +14,7 @@
     vibrator: vibrator {
         compatible = "gpio-leds";
         vibe_pin: vibe_0 {
-            gpios = <&xiao_d 1 GPIO_ACTIVE_HIGH>; /* D1ピンを使用 */
+            gpios = <&xiao_d 10 GPIO_ACTIVE_HIGH>; /* D1ピンを使用 */
             label = "Vibration Motor";
         };
     };
