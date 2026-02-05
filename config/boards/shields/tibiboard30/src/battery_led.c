@@ -10,7 +10,7 @@ static const struct gpio_dt_spec led_green = GPIO_DT_SPEC_GET(DT_ALIAS(led1), gp
 static const struct gpio_dt_spec led_blue  = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios);
 
 /* 表示時間 (2秒) */
-#define LED_SHOW_TIME 10000
+#define LED_SHOW_TIME 2000
 
 static struct k_work_delayable led_off_work;
 static struct k_work_delayable boot_show_work;
