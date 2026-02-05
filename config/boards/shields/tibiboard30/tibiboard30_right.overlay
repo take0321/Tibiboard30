@@ -1,8 +1,22 @@
 #include "tibiboard30.dtsi"
 
+/ {
+    vibrator: vibrator {
+        compatible = "gpio-leds";
+        vibe_pin: vibe_0 {
+            gpios = <&xiao_d 10 GPIO_ACTIVE_HIGH>;
+        };
+    };
+
+    aliases {
+        vibe0 = &vibe_pin;
+    };
+};
+
 &transform {
     col-offset = <5>;
 };
+
 &kscan {
     col-gpios
         = <&xiao_d 6 GPIO_ACTIVE_HIGH>
@@ -12,5 +26,3 @@
         , <&xiao_d 2 GPIO_ACTIVE_HIGH>
         ;
 };
-
-
