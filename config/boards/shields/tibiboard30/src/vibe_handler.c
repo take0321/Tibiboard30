@@ -17,11 +17,11 @@ static const struct gpio_dt_spec vibe_motor = GPIO_DT_SPEC_GET(DT_ALIAS(vibe0), 
  * ========================================== */
 
 /* 機能1: レイヤー変更 */
-#define LAYER_VIBE_MS    150   /* 少し長めに設定 (前回80ms -> 今回150ms) */
+#define LAYER_VIBE_MS    300   /* 少し長めに設定 (前回80ms -> 今回150ms) */
 
 /* 機能2: プロファイル変更 */
-#define PROF_START_DELAY 500   /* 変更後の待ち時間 */
-#define PROF_START_MS    100   /* 開始合図 (0.1秒) */
+#define PROF_START_DELAY 100   /* 変更後の待ち時間 */
+#define PROF_START_MS    300   /* 開始合図 (0.1秒) */
 #define PROF_SUCCESS_MS  1000  /* 接続成功 (1秒) */
 #define PROF_POLL_MS     500   /* 接続チェック間隔 */
 
@@ -73,7 +73,7 @@ static void prof_poll_handler(struct k_work *work) {
     k_work_schedule(&prof_poll_work, K_MSEC(PROF_POLL_MS));
 }
 
-/* 2-1. 開始合図 (0.1秒 × 1回) */
+/* 2-1. 開始合図 (0.3秒 × 1回) */
 static void prof_start_handler(struct k_work *work) {
     gpio_pin_set_dt(&vibe_motor, 1);
     k_msleep(PROF_START_MS);
