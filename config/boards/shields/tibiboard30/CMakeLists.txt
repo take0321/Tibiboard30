@@ -1,5 +1,5 @@
-# app (ZMK本体) にソースファイルを追加する
+# この一行で vibe_handler.c をビルド対象に加えます
 target_sources(app PRIVATE src/vibe_handler.c)
 
-# ZMKの内部ヘッダーを参照可能にする
+# ZMKのヘッダーパスを通します
 target_include_directories(app PRIVATE ${APPLICATION_SOURCE_DIR}/include)
