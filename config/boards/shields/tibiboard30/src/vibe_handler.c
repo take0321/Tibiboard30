@@ -7,7 +7,7 @@
 #include <zmk/ble.h>
 #include <zmk/events/ble_active_profile_changed.h>
 #include <zmk/events/layer_state_changed.h>
-#include <zmk/events/keycode_state_changed.h> /* キー入力検知用 */
+#include <zmk/events/keycode_state_changed.h>
 
 #if DT_NODE_EXISTS(DT_ALIAS(vibe0))
 
@@ -26,6 +26,10 @@ static const struct gpio_dt_spec vibe_motor = GPIO_DT_SPEC_GET(DT_ALIAS(vibe0), 
 #define PROF_SUCCESS_MS  1000  /* 接続成功 */
 #define PROF_POLL_MS     500   /* 接続チェック間隔 */
 
+/* 機能3: ON/OFF切り替え通知 (NEW!) */
+#define TOGGLE_FEEDBACK_MS 1000 /* 切り替えたら1秒振動 */
+
+
 /* ==========================================
  * グローバル変数
  * ========================================== */
@@ -39,6 +43,7 @@ static struct k_work_delayable layer_work;
 static struct k_work_delayable prof_start_work;
 static struct k_work_delayable prof_poll_work;
 static struct k_work_delayable prof_success_work;
+static struct k_work_delayable toggle_work; /* 切り替え通知用 (追加) */
 
 
 /* ------------------------------------------------
@@ -49,6 +54,13 @@ static struct k_work_delayable prof_success_work;
 static void layer_vibe_handler(struct k_work *work) {
     gpio_pin_set_dt(&vibe_motor, 1);
     k_msleep(LAYER_VIBE_MS);
+    gpio_pin_set_dt(&vibe_motor, 0);
+}
+
+/* 切り替え通知 (1秒) */
+static void toggle_feedback_handler(struct k_work *work) {
+    gpio_pin_set_dt(&vibe_motor, 1);
+    k_msleep(TOGGLE_FEEDBACK_MS);
     gpio_pin_set_dt(&vibe_motor, 0);
 }
 
@@ -83,10 +95,7 @@ static void prof_start_handler(struct k_work *work) {
 static int layer_listener(const zmk_event_t *eh) {
     const struct zmk_layer_state_changed *ev = as_zmk_layer_state_changed(eh);
     
-    /* * 条件:
-     * 1. レイヤーに入った (state == true)
-     * 2. かつ、振動機能がONになっている (layer_vibe_enabled == true)
-     */
+    /* 振動機能がONの時だけ実行 */
     if (ev != NULL && ev->state == true && layer_vibe_enabled) {
         k_work_schedule(&layer_work, K_NO_WAIT);
     }
@@ -101,6 +110,7 @@ static int profile_listener(const zmk_event_t *eh) {
         k_work_cancel_delayable(&prof_start_work);
         k_work_cancel_delayable(&prof_poll_work);
         k_work_cancel_delayable(&prof_success_work);
+        k_work_cancel_delayable(&toggle_work); 
         gpio_pin_set_dt(&vibe_motor, 0);
 
         k_work_schedule(&prof_start_work, K_MSEC(PROF_START_DELAY));
@@ -116,12 +126,10 @@ static int key_listener(const zmk_event_t *eh) {
     if (ev != NULL && ev->state && ev->keycode == 0x6E) { 
         layer_vibe_enabled = !layer_vibe_enabled; 
         
-        /* (オプション) 切り替わった合図として一瞬だけ震わせるなら以下を有効化 */
-        /*
-        gpio_pin_set_dt(&vibe_motor, 1);
-        k_msleep(50);
-        gpio_pin_set_dt(&vibe_motor, 0);
-        */
+        /* 切り替え合図の振動 (1秒) を開始 */
+        /* 他の短い振動と被らないよう、念のため前のをキャンセル */
+        k_work_cancel_delayable(&layer_work);
+        k_work_schedule(&toggle_work, K_NO_WAIT);
     }
     return ZMK_EV_EVENT_BUBBLE;
 }
@@ -148,6 +156,7 @@ static int vibe_init(void) {
     k_work_init_delayable(&prof_start_work, prof_start_handler);
     k_work_init_delayable(&prof_poll_work, prof_poll_handler);
     k_work_init_delayable(&prof_success_work, prof_success_handler);
+    k_work_init_delayable(&toggle_work, toggle_feedback_handler); /* 追加 */
 
     return 0;
 }
