@@ -24,6 +24,15 @@
 
     combos {
         compatible = "zmk,combos";
+        
+        /* AとB同時押しで レイヤー7を一瞬開く */
+        combo_battery {
+            timeout-ms = <50>;
+            key-positions = <10 24>; /* AとBの位置 */
+            bindings = <&mo 7>;      /* ここを変更 */
+        };
+    
+
 
         f1 {
             bindings = <&kp F1>;
@@ -204,6 +213,15 @@
 &kp Q  &kp W  &kp E  &kp R  &kp T        &kp Y  &kp U  &kp I    &kp O     &kp P
 &kp A  &kp S  &kp D  &kp F  &kp G        &kp H  &kp J  &kp K    &kp L     &kp RET
 &kp Z  &kp X  &kp C  &kp V  &kp B        &kp N  &kp M  &kp ESC  &kp BSPC  &kp SPACE
+            >;
+        };
+/* バッテリー確認用ダミーレイヤー */
+        layer_7 {
+            display-name = "BATTERY";
+            bindings = <
+&trans &trans &trans &trans &trans    &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans    &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans    &trans &trans &trans &trans &trans
             >;
         };
     };
