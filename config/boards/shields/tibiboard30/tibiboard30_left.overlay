@@ -1,27 +1,27 @@
+/* config/boards/shields/tibiboard30/tibiboard30_left.overlay */
 #include "tibiboard30.dtsi"
 
 / {
-    /* 1. モーターの物理ピン設定 */
     vibrator: vibrator {
         compatible = "gpio-leds";
         vibe_pin: vibe_0 {
-            gpios = <&xiao_d 10 GPIO_ACTIVE_HIGH>;
+            /* 浅い眠りなら、このPULL_DOWNがずっと効くから安全！ */
+            gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
             label = "Vibration Motor";
         };
     };
-
-    /* 2. プログラムから参照するための名前(vibe0)を作成 */
     aliases {
-        vibe0 = &vibe_pin;
+        vib0 = &vibe_pin;
     };
 };
 
 &kscan {
     col-gpios
-        = <&xiao_d  6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        , <&xiao_d  5 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        , <&xiao_d  4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        , <&xiao_d  3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        , <&xiao_d  2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        /* ★重要：ここを元の「PULL_DOWN有り」に戻す！★ */
+        = <&xiao_d 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&xiao_d 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&xiao_d 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&xiao_d 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
         ;
 };
