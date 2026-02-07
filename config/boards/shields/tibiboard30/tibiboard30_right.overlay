@@ -1,23 +1,18 @@
-/* config/boards/shields/tibiboard30/tibiboard30_left.overlay */
+/* config/boards/shields/tibiboard30/tibiboard30_right.overlay */
+
 #include "tibiboard30.dtsi"
 
-/ {
-    vibrator: vibrator {
-        compatible = "gpio-leds";
-        vibe_pin: vibe_0 {
-            /* 浅い眠りなら、このPULL_DOWNがずっと効くから安全！ */
-            gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
-            label = "Vibration Motor";
-        };
-    };
-    aliases {
-        vib0 = &vibe_pin;
-    };
+&default_transform {
+    col-offset = <5>;
 };
 
+/* 1. モーター設定 */
+/* 右側にはモーターが無いので、ここには何も書かない！ */
+
+/* 2. マトリックス設定 */
+/* 左側と合わせて、ここだけ PULL_DOWN に戻しておく（重要！） */
 &kscan {
     col-gpios
-        /* ★重要：ここを元の「PULL_DOWN有り」に戻す！★ */
         = <&xiao_d 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
         , <&xiao_d 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
         , <&xiao_d 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
