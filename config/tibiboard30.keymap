@@ -20,20 +20,23 @@
             tapping-term-ms = <200>;
             bindings = <&kp N1>, <&kp N2>, <&kp N3>;
         };
+
+        td1: td1 {
+            compatible = "zmk,behavior-tap-dance";
+            label = "TD1";
+            #binding-cells = <0>;
+            bindings = <&kp F20>, <&kp F21>, <&kp F22>;
+        };
     };
 
     combos {
-    compatible = "zmk,combos";
-    combo_vibe_layer_off {
-        timeout-ms = <50>;
-        key-positions = <0 1 2 3 >; // 
-        bindings = <&kp F19>; // F19キーを送信
+        compatible = "zmk,combos";
+
+        combo_vibe_layer_off {
+            timeout-ms = <50>;
+            key-positions = <0 1 2 3 >; // 
+            bindings = <&kp F19>; // F19キーを送信
         };
-
-        
-        
-    
-
 
         f1 {
             bindings = <&kp F1>;
@@ -139,14 +142,18 @@
             bindings = <&kp F12>;
             key-positions = <1 21>;
         };
+
+        qqq {
+            bindings = <&macro1>;
+            key-positions = <29 28>;
+        };
     };
 
     macros {
         macro1: macro1 {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp LC(LS(LEFT_BRACKET))>, <&macro_press>, <&kp LC(V)>;
-
+            bindings = <&kp ENTER &kp LC(F20)>;
             label = "MACRO1";
         };
     };
@@ -157,65 +164,64 @@
         layer_0 {
             display-name = "0";
             bindings = <
-&lt 3 Q      &kp W        &kp E           &kp R           &mt LANGUAGE_1 T        &mt LANGUAGE_2 Y  &kp U        &kp I               &kp O              &lt 3 P
-&lt 1 A      &lt 2 S      &lt 5 D         &mt SPACE F     &kp G                   &mt MINUS H       &mt SPACE J  &lt 5 K             &lt 2 L            &lt 1 SEMICOLON
-&mt LCTRL Z  &mt LSHFT X  &mt LEFT_ALT C  &mt LEFT_GUI V  &kp B                   &kp N             &kp M        &mt LEFT_ALT COMMA  &mt RSHIFT PERIOD  &mt RCTRL SLASH
+&lt 3 Q      &kp W        &kp E           &kp R           &mt LANGUAGE_1 T  &mt LANGUAGE_2 Y  &kp U        &kp I               &kp O              &lt 3 P
+&lt 1 A      &lt 2 S      &lt 5 D         &mt SPACE F     &kp G             &mt MINUS H       &mt SPACE J  &lt 5 K             &lt 2 L            &lt 1 SEMICOLON
+&mt LCTRL Z  &mt LSHFT X  &mt LEFT_ALT C  &mt LEFT_GUI V  &kp B             &kp N             &kp M        &mt LEFT_ALT COMMA  &mt RSHIFT PERIOD  &mt RCTRL SLASH
             >;
         };
 
         layer_1 {
             display-name = "1";
             bindings = <
-&kp LS(PLUS)  &kp MINUS  &kp N7  &kp N8  &kp N9        &kp LS(AMPS)  &kp LS(STAR)          &kp SQT            &kp LS(LPAR)     &kp LS(RPAR)
-&kp LS(PLUS)  &kp N0     &kp N4  &kp N5  &kp N6        &kp LS(DLLR)  &kp LS(PRCNT)         &kp LS(CARET)      &kp LS(LBRC)     &kp LS(RBRC)
-&kp EQUAL     &kp DOT    &kp N1  &kp N2  &kp N3        &kp LS(EXCL)  &mt LS(RGUI) AT_SIGN  &mt LS(RALT) HASH  &mt RSHIFT LBKT  &mt RCTRL RBKT
+&kp LS(PLUS)  &kp MINUS  &kp N7  &kp N8  &kp N9  &kp LS(AMPS)  &kp LS(STAR)          &kp SQT            &kp LS(LPAR)     &kp LS(RPAR)
+&kp LS(PLUS)  &kp N0     &kp N4  &kp N5  &kp N6  &kp LS(DLLR)  &kp LS(PRCNT)         &kp LS(CARET)      &kp LS(LBRC)     &kp LS(RBRC)
+&kp EQUAL     &kp DOT    &kp N1  &kp N2  &kp N3  &kp LS(EXCL)  &mt LS(RGUI) AT_SIGN  &mt LS(RALT) HASH  &mt RSHIFT LBKT  &mt RCTRL RBKT
             >;
         };
 
         layer_2 {
             display-name = "2";
             bindings = <
-&kp ESC   &kp TAB  &kp ENTER  &kp UP    &kp DEL          &kp GRAVE     &kp LS(PIPE)  &kp BSLH       &kp BSPC             &kp DEL
-&kp TAB   &trans   &kp BSPC   &kp LEFT  &kp RIGHT        &kp LS(PLUS)  &kp UP        &kp LS(UNDER)  &kp SPACE            &kp ENTER
-&kp CLCK  &td0     &kp TAB    &kp DOWN  &kp SPACE        &kp LEFT      &kp DOWN      &kp RIGHT      &mt RSHIFT LS(LEFT)  &mt RCTRL LS(RIGHT)
+&kp ESC   &kp TAB  &kp ENTER  &kp UP    &kp DEL    &kp GRAVE     &kp LS(PIPE)  &kp BSLH       &kp BSPC             &kp DEL
+&kp TAB   &trans   &kp BSPC   &kp LEFT  &kp RIGHT  &kp LS(PLUS)  &kp UP        &kp LS(UNDER)  &kp SPACE            &kp ENTER
+&kp CLCK  &td0     &kp TAB    &kp DOWN  &kp SPACE  &kp LEFT      &kp DOWN      &kp RIGHT      &mt RSHIFT LS(LEFT)  &mt RCTRL LS(RIGHT)
             >;
         };
 
         layer_3 {
             display-name = "3";
             bindings = <
-&trans   &kp LS(LG(LEFT))   &kp LA(I)    &kp HOME  &kp PAGE_UP          &trans  &trans  &trans  &trans  &kp PRINTSCREEN
-&macro1  &kp LC(LS(COMMA))  &kp DOWN     &kp END   &kp PAGE_DOWN        &trans  &trans  &trans  &trans  &trans
-&mo 4    &kp LC(LS(TAB))    &kp LC(TAB)  &macro1   &trans               &trans  &trans  &trans  &trans  &mo 4
+&trans   &kp LS(LG(LEFT))   &kp LA(I)    &kp HOME  &kp PAGE_UP    &trans  &trans  &trans  &trans  &kp PRINTSCREEN
+&macro1  &kp LC(LS(COMMA))  &kp DOWN     &kp END   &kp PAGE_DOWN  &trans  &trans  &trans  &trans  &trans
+&mo 4    &kp LC(LS(TAB))    &kp LC(TAB)  &macro1   &trans         &trans  &trans  &trans  &trans  &mo 4
             >;
         };
 
         layer_4 {
             display-name = "4";
             bindings = <
-&kp EXCL   &kp AT  &kp HASH  &kp DLLR     &kp PRCNT          &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
-&kp N1     &kp N2  &kp N3    &kp N4       &kp A              &kp A         &kp N7        &kp N8        &bt BT_CLR    &bt BT_CLR_ALL
-&kp LSHFT  &none   &none     &kp C_POWER  &bootloader        &bootloader   &kp C_SLEEP   &kp COMMA     &kp DOT       &studio_unlock
+&bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
+&kp N1        &kp N2        &kp N3        &bt BT_CLR    &bt BT_CLR_ALL  &kp A         &kp N7        &kp N8        &bt BT_CLR    &bt BT_CLR_ALL
+&kp LSHFT     &none         &none         &td1          &bootloader     &bootloader   &kp C_SLEEP   &kp COMMA     &kp DOT       &studio_unlock
             >;
         };
 
         layer_5 {
             display-name = "5";
             bindings = <
-&trans  &trans  &trans  &trans        &trans               &kt GRAVE      &kp RS(PIPE)           &kt BACKSLASH       &trans    &trans
-&trans  &trans  &trans  &kp LS(LEFT)  &kp LS(RIGHT)        &kp RS(PLUS)   &kp RS(TILDE)          &kp RS(UNDER)       &kp UP    &trans
-&trans  &trans  &trans  &trans        &trans               &kp RS(COLON)  &kp RS(DOUBLE_QUOTES)  &mt LEFT_ALT COMMA  &kp DOWN  &kp RIGHT
+&trans  &trans  &trans  &trans        &trans         &kt GRAVE      &kp RS(PIPE)           &kt BACKSLASH       &trans    &trans
+&trans  &trans  &trans  &kp LS(LEFT)  &kp LS(RIGHT)  &kp RS(PLUS)   &kp RS(TILDE)          &kp RS(UNDER)       &kp UP    &trans
+&trans  &trans  &trans  &trans        &trans         &kp RS(COLON)  &kp RS(DOUBLE_QUOTES)  &mt LEFT_ALT COMMA  &kp DOWN  &kp RIGHT
             >;
         };
 
         layer_6 {
             display-name = "6";
             bindings = <
-&kp Q  &kp W  &kp E  &kp R  &kp T        &kp Y  &kp U  &kp I    &kp O     &kp P
-&kp A  &kp S  &kp D  &kp F  &kp G        &kp H  &kp J  &kp K    &kp L     &kp RET
-&kp Z  &kp X  &kp C  &kp V  &kp B        &kp N  &kp M  &kp ESC  &kp BSPC  &kp SPACE
+&kp Q  &kp W  &kp E  &kp R  &kp T  &kp Y  &kp U  &kp I    &kp O     &kp P
+&kp A  &kp S  &kp D  &kp F  &kp G  &kp H  &kp J  &kp K    &kp L     &kp RET
+&kp Z  &kp X  &kp C  &kp V  &kp B  &kp N  &kp M  &kp ESC  &kp BSPC  &kp SPACE
             >;
         };
-
     };
 };
