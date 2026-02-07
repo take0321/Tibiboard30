@@ -5,9 +5,8 @@ manifest:
   projects:
     - name: zmk
       remote: zmkfirmware
-      
-      # ★ここ バージョン名を書くだけでOK！
-      revision: v0.3.0
+     
+      revision: main
       import: app/west.yml
   self:
     path: config
