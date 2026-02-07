@@ -2,15 +2,20 @@
 
 #include "tibiboard30.dtsi"
 
-&default_transform {
+/* ★修正箇所：名前を transform に合わせる★ */
+&transform {
     col-offset = <5>;
 };
 
-/* 1. モーター設定 */
-/* 右側にはモーターが無いので、ここには何も書かない！ */
+/ {
+    /* 1. モーター設定 */
+    /* 右側にはモーターが無いので記述なし */
 
-/* 2. マトリックス設定 */
-/* 左側と合わせて、ここだけ PULL_DOWN に戻しておく（重要！） */
+    /* 2. マトリックス設定 */
+    /* 左側と合わせて PULL_DOWN に戻す */
+    /* 入力安定化のため */
+};
+
 &kscan {
     col-gpios
         = <&xiao_d 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
