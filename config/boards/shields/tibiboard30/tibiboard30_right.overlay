@@ -15,7 +15,7 @@
     /* 左側と合わせて PULL_DOWN に戻す */
     /* 入力安定化のため */
 };
-
+ wakeup-source;
 &kscan {
     col-gpios
         = <&xiao_d 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
