@@ -36,8 +36,8 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
     /* 接続完了イベント */
     struct k_work connect_work;
     static void connect_work_handler(struct k_work *work) {
-        /* ★ここが本命の「つながったよ！」合図★ */
-        vib_start(1500); 
+        /* ★変更：1.5秒 -> 1.0秒★ */
+        vib_start(1000); 
     }
 
     static void on_connected(struct bt_conn *conn, uint8_t err) {
@@ -62,10 +62,14 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
             if (keycode_ev && keycode_ev->state) { 
                 if (keycode_ev->usage_page == 0x07) { 
                     switch (keycode_ev->keycode) {
+                        /* F19: ON/OFF切替 */
                         case 0x6E:
                             is_layer_vibe_enabled = !is_layer_vibe_enabled;
-                            vib_start(1500); 
+                            /* ★変更：合図も 1.5秒 -> 1.0秒 に短縮 */
+                            vib_start(1000); 
                             break;
+
+                        /* F20-F22: テスト用 */
                         case 0x6F: vib_start(300); break;
                         case 0x70: vib_start(600); break;
                         case 0x71: vib_start(1000); break;
@@ -79,6 +83,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
             if (layer_ev) {
                 if (is_layer_vibe_enabled) {
                     if (layer_ev->state) { 
+                        /* レイヤーはそのまま 0.25秒 */
                         vib_start(250);
                     }
                 }
@@ -86,16 +91,10 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
             }
 
             /* 3. プロファイル変更 */
-            /* ★ここを修正しました★ */
             const struct zmk_ble_active_profile_changed *profile_ev = as_zmk_ble_active_profile_changed(eh);
             if (profile_ev) {
-                if (zmk_ble_active_profile_is_connected()) {
-                    /* すでに接続されている場合、on_connected 側で振動するので */
-                    /* ここでは振動させないことで重複を防ぎます */
-                } else {
-                    /* 切断された（他のプロファイルに移った）時だけ短く振動 */
-                    vib_start(250); 
-                }
+                /* ★復活！ プロファイル変更時は 0.6秒★ */
+                vib_start(600);
                 return ZMK_EV_EVENT_BUBBLE;
             }
             return ZMK_EV_EVENT_BUBBLE;
@@ -114,7 +113,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
         gpio_pin_configure_dt(&motor, GPIO_OUTPUT_INACTIVE);
         k_work_init(&connect_work, connect_work_handler);
         
-        /* 起動時は短く1回だけ */
+        /* 起動時チェック用 (0.25秒) */
         vib_start(250); 
         return 0;
     }
