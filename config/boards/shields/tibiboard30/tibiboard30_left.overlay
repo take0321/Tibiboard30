@@ -14,7 +14,7 @@
         vib0 = &vibe_pin;
     };
 };
-
+wakeup-source;
 &kscan {
     col-gpios
         /* ★重要：ここを元の「PULL_DOWN有り」に戻す！★ */
