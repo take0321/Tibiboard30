@@ -1,11 +1,39 @@
-/* config/boards/shields/tibiboard30/tibiboard30_left.overlay */
+/* tibiboard30_left.overlay - Ver 3.2 改 (Sleep Fix) */
 #include "tibiboard30.dtsi"
 
+&kscan {
+    compatible = "zmk,kscan-gpio-matrix";
+    diode-direction = "col2row";
+    
+    /* ★これがないと起きない！ */
+    wakeup-source;
+
+    /* 行 (Rows) */
+    row-gpios
+        = <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&xiao_d 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        ;
+
+    /* 列 (Cols) */
+    col-gpios
+        = <&xiao_d 6 GPIO_ACTIVE_HIGH>
+        , <&xiao_d 5 GPIO_ACTIVE_HIGH>
+        , <&xiao_d 4 GPIO_ACTIVE_HIGH>
+        , <&xiao_d 3 GPIO_ACTIVE_HIGH>
+        , <&xiao_d 2 GPIO_ACTIVE_HIGH>
+        ;
+};
+
+&transform {
+    col-offset = <0>;
+};
+
+/* --- 振動モーター (Ver3.2のまま) --- */
 / {
     vibrator: vibrator {
         compatible = "gpio-leds";
         vibe_pin: vibe_0 {
-            /* 浅い眠りなら、このPULL_DOWNがずっと効くから安全！ */
             gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
             label = "Vibration Motor";
         };
@@ -13,15 +41,4 @@
     aliases {
         vib0 = &vibe_pin;
     };
-};
-
-&kscan {
-    col-gpios
-        /* ★重要：ここを元の「PULL_DOWN有り」に戻す！★ */
-        = <&xiao_d 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        , <&xiao_d 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        , <&xiao_d 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        , <&xiao_d 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        , <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        ;
 };
