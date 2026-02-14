@@ -4,7 +4,7 @@ name: Tibiboard30
 type: shield
 features:
   - keys
-  - studio  # Studio対応だよ！と宣言
+  - studio  # Studio対応だよ！と宣言 
 siblings:
   - tibiboard30_left
   - tibiboard30_right
