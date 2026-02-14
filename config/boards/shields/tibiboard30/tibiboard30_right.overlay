@@ -1,27 +1,24 @@
 /* config/boards/shields/tibiboard30/tibiboard30_right.overlay */
-
 #include "tibiboard30.dtsi"
 
-/* ★修正箇所：名前を transform に合わせる★ */
 &transform {
     col-offset = <5>;
 };
 
-/ {
-    /* 1. モーター設定 */
-    /* 右側にはモーターが無いので記述なし */
-
-    /* 2. マトリックス設定 */
-    /* 左側と合わせて PULL_DOWN に戻す */
-    /* 入力安定化のため */
-};
-
 &kscan {
+    wakeup-source;
+
+    row-gpios
+        = <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&xiao_d 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        ;
+
     col-gpios
-        = <&xiao_d 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        , <&xiao_d 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        , <&xiao_d 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        , <&xiao_d 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        , <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        = <&xiao_d 6 GPIO_ACTIVE_HIGH>
+        , <&xiao_d 5 GPIO_ACTIVE_HIGH>
+        , <&xiao_d 4 GPIO_ACTIVE_HIGH>
+        , <&xiao_d 3 GPIO_ACTIVE_HIGH>
+        , <&xiao_d 2 GPIO_ACTIVE_HIGH>
         ;
 };
